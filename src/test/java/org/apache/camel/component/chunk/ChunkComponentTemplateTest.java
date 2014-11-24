@@ -23,9 +23,7 @@ import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.mock.MockEndpoint;
 import org.apache.camel.test.junit4.CamelTestSupport;
-import org.apache.camel.util.StopWatch;
 import org.junit.Test;
-import org.slf4j.LoggerFactory;
 
 /**
  * Unit test for {@link ChunkComponent} and {@link ChunkEndpoint}
@@ -61,7 +59,7 @@ public class ChunkComponentTemplateTest extends CamelTestSupport {
             @Override
             public void configure() {
                 from("direct:startSimple")
-                        .to("chunk://hello?startDelimiter={&endDelimiter=}")
+                        .to("chunk://hello")
                         .to("mock:endSimple");
             }
         };

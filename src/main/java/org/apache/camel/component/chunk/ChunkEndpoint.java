@@ -49,17 +49,11 @@ public class ChunkEndpoint extends ResourceEndpoint {
     private Theme theme;
     private Chunk chunk;
     
-    @UriParam(description = "Define the encoding")
+    @UriParam(description = "Define the encoding of the body")
     private String encoding;
     
     @UriParam(description = "Define the themes subfolder to scan")
     private String themeSubfolder;
-    
-    @UriParam(description = "Define the start delimiter in a chunk template file")
-    private String startDelimiter;
-    
-    @UriParam(description = "Define the end delimiter in a chunk template file")
-    private String endDelimiter;
     
     @UriParam(description = "Define the theme layer to elaborate")
     private String themeLayer;
@@ -94,6 +88,7 @@ public class ChunkEndpoint extends ResourceEndpoint {
 
     @Override
     protected void onExchange(Exchange exchange) throws Exception {
+    	boolean fromTemplate = false;
         String newResourceUri = exchange.getIn().getHeader(CHUNK_RESOURCE_URI, String.class);
         if (theme == null) {
             theme = getOrCreateTheme();
@@ -102,9 +97,11 @@ public class ChunkEndpoint extends ResourceEndpoint {
             String newTemplate = exchange.getIn().getHeader(CHUNK_TEMPLATE, String.class);
             Chunk newChunk;
             if (newTemplate == null) {
-                newChunk = getOrCreateChunk(theme);
+            	fromTemplate = false;
+                newChunk = getOrCreateChunk(theme, fromTemplate);
             } else {
-                newChunk = createChunk(new StringReader(newTemplate), theme);
+            	fromTemplate = true;
+                newChunk = createChunk(new StringReader(newTemplate), theme, fromTemplate);
                 exchange.getIn().removeHeader(CHUNK_TEMPLATE);
             }
 
@@ -131,10 +128,10 @@ public class ChunkEndpoint extends ResourceEndpoint {
      * Create a Chunk template
      *
      * @param resourceReader Reader used to get template
-     * @param Theme    The theme
+     * @param Theme The theme
      * @return Chunk
      */
-    private Chunk createChunk(Reader resourceReader, Theme theme) throws IOException {
+    private Chunk createChunk(Reader resourceReader, Theme theme, boolean fromTemplate) throws IOException {
         ClassLoader oldcl = Thread.currentThread().getContextClassLoader();
         try {
             ClassLoader apcl = getCamelContext().getApplicationContextClassLoader();
@@ -142,9 +139,10 @@ public class ChunkEndpoint extends ResourceEndpoint {
                 Thread.currentThread().setContextClassLoader(apcl);
             }
             Chunk newChunk = null;
-            if (startDelimiter != null && endDelimiter != null) {
+            if (fromTemplate) {
                 newChunk = theme.makeChunk();
                 String targetString = IOUtils.toString(resourceReader);
+                System.err.println(targetString);
                 newChunk.append(targetString);
             } else {
                 String targetString = IOUtils.toString(resourceReader);
@@ -159,9 +157,9 @@ public class ChunkEndpoint extends ResourceEndpoint {
         }
     }
 
-    private Chunk getOrCreateChunk(Theme theme) throws IOException {
+    private Chunk getOrCreateChunk(Theme theme, boolean fromTemplate) throws IOException {
         if (chunk == null) {
-            chunk = createChunk(new StringReader(getResourceUriExtended()), theme);
+            chunk = createChunk(new StringReader(getResourceUriExtended()), theme, fromTemplate);
         }
         return chunk;
     }
@@ -172,6 +170,9 @@ public class ChunkEndpoint extends ResourceEndpoint {
                 theme = new Theme(); 
             } else {
                 theme = new Theme(themeSubfolder); 
+            }
+            if (encoding != null) {
+                theme.setEncoding(encoding);
             }
         }
         return theme;
@@ -207,22 +208,6 @@ public class ChunkEndpoint extends ResourceEndpoint {
 
     public void setThemeSubfolder(String themeSubfolder) {
         this.themeSubfolder = themeSubfolder;
-    }
-
-    public String getStartDelimiter() {
-        return startDelimiter;
-    }
-
-    public void setStartDelimiter(String startDelimiter) {
-        this.startDelimiter = startDelimiter;
-    }
-
-    public String getEndDelimiter() {
-        return endDelimiter;
-    }
-
-    public void setEndDelimiter(String endDelimiter) {
-        this.endDelimiter = endDelimiter;
     }
 
     public String getThemeLayer() {

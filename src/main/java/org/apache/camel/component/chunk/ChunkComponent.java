@@ -36,14 +36,6 @@ public class ChunkComponent extends DefaultComponent {
         if (ObjectHelper.isNotEmpty(encoding)) {
             endpoint.setEncoding(encoding);
         }
-        String startDelimiter = getAndRemoveParameter(parameters, "startDelimiter", String.class);
-        if (ObjectHelper.isNotEmpty(startDelimiter)) {
-            endpoint.setStartDelimiter(startDelimiter);
-        }
-        String endDelimiter = getAndRemoveParameter(parameters, "endDelimiter", String.class);
-        if (ObjectHelper.isNotEmpty(endDelimiter)) {
-            endpoint.setEndDelimiter(endDelimiter);
-        }
         String themeSubfolder = getAndRemoveParameter(parameters, "themeSubfolder", String.class);
         if (ObjectHelper.isNotEmpty(themeSubfolder)) {
             endpoint.setThemeSubfolder(themeSubfolder);
