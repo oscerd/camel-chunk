@@ -40,7 +40,7 @@ public class ChunkComponentLayersTest extends CamelTestSupport {
      * Test using Resource URI header
      */
     @Test
-    public void testChunkWithResourceUriHeader() throws Exception {
+    public void testChunkSingleLayer() throws Exception {
         // Prepare
         Exchange exchange = createExchangeWithBody("The Body");
         exchange.getIn().setHeader("name", "Andrew");

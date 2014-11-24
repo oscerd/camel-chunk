@@ -41,7 +41,7 @@ public class ChunkComponentNestedTest extends CamelTestSupport {
      * Main test
      */
     @Test
-    public void testChunk() throws Exception {
+    public void testChunkSubfolder() throws Exception {
         // Prepare
         endSimpleMock.expectedMessageCount(1);
         endSimpleMock.expectedBodiesReceived("This the result of last call to chunk Earth to Andrew. Come in, Andrew.\n\n");
