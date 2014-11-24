@@ -36,6 +36,10 @@ public class ChunkComponent extends DefaultComponent {
         if (ObjectHelper.isNotEmpty(encoding)) {
             endpoint.setEncoding(encoding);
         }
+        String themesFolder = getAndRemoveParameter(parameters, "themesFolder", String.class);
+        if (ObjectHelper.isNotEmpty(themesFolder)) {
+            endpoint.setThemeFolder(themesFolder);
+        }
         String themeSubfolder = getAndRemoveParameter(parameters, "themeSubfolder", String.class);
         if (ObjectHelper.isNotEmpty(themeSubfolder)) {
             endpoint.setThemeSubfolder(themeSubfolder);
@@ -43,6 +47,10 @@ public class ChunkComponent extends DefaultComponent {
         String themeLayer = getAndRemoveParameter(parameters, "themeLayer", String.class);
         if (ObjectHelper.isNotEmpty(themeLayer)) {
             endpoint.setThemeLayer(themeLayer);
+        }
+        String extension = getAndRemoveParameter(parameters, "extension", String.class);
+        if (ObjectHelper.isNotEmpty(extension)) {
+            endpoint.setExtension(extension);
         }
         setProperties(endpoint, parameters);
         return endpoint;

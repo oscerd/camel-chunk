@@ -23,14 +23,12 @@ import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.mock.MockEndpoint;
 import org.apache.camel.test.junit4.CamelTestSupport;
-import org.apache.camel.util.StopWatch;
 import org.junit.Test;
-import org.slf4j.LoggerFactory;
 
 /**
  * Unit test for {@link ChunkComponent} and {@link ChunkEndpoint}
  */
-public class ChunkComponentTest extends CamelTestSupport {
+public class ChunkDifferentThemeFolderSubfolderAndExtensionTest extends CamelTestSupport {
 
     @EndpointInject(uri = "mock:endSimple")
     protected MockEndpoint endSimpleMock;
@@ -39,28 +37,13 @@ public class ChunkComponentTest extends CamelTestSupport {
     protected ProducerTemplate startSimpleProducerTemplate;
 
     /**
-     * Main test
-     */
-    @Test
-    public void testChunk() throws Exception {
-        // Prepare
-        endSimpleMock.expectedMessageCount(1);
-        endSimpleMock.expectedBodiesReceived("Earth to Andrew. Come in, Andrew.\n");
-        // Act
-        startSimpleProducerTemplate.sendBodyAndHeader("The Body", "name", "Andrew");
-        // Verify
-        assertMockEndpointsSatisfied();
-    }
-
-    /**
      * Test using Resource URI header
      */
     @Test
-    public void testChunkWithResourceUriHeader() throws Exception {
+    public void testChunkSubfolder() throws Exception {
         // Prepare
         Exchange exchange = createExchangeWithBody("The Body");
         exchange.getIn().setHeader("name", "Andrew");
-        exchange.getIn().setHeader(ChunkConstants.CHUNK_RESOURCE_URI, "hello");
         endSimpleMock.expectedMessageCount(1);
         endSimpleMock.expectedBodiesReceived("Earth to Andrew. Come in, Andrew.\n");
         // Act
@@ -69,29 +52,13 @@ public class ChunkComponentTest extends CamelTestSupport {
         assertMockEndpointsSatisfied();
     }
 
-    /**
-     * Main test
-     */
-    @Test
-    public void testChunkPerformance() throws Exception {
-        int messageCount = 10000;
-        endSimpleMock.expectedMessageCount(messageCount);
-        StopWatch stopwatch = new StopWatch(true);
-        for (int i = 0; i < messageCount; i++) {
-            startSimpleProducerTemplate.sendBodyAndHeader("The Body", "name", "Andrew");
-        }
-        assertMockEndpointsSatisfied();
-        LoggerFactory.getLogger(getClass()).info("Chunk performance: " + stopwatch.stop() + "ms for " + messageCount + " messages");
-
-    }
-
     @Override
     protected RouteBuilder createRouteBuilder() throws Exception {
         return new RouteBuilder() {
             @Override
             public void configure() {
                 from("direct:startSimple")
-                        .to("chunk://file")
+                        .to("chunk:subfile_example?themeFolder=folderexample&themeSubfolder=subfolderexample&extension=file")
                         .to("mock:endSimple");
             }
         };

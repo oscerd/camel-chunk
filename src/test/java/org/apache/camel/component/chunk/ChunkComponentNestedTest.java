@@ -59,7 +59,7 @@ public class ChunkComponentNestedTest extends CamelTestSupport {
                 from("direct:startSimple")
                         .setHeader("result", constant("ok"))
                         .to("chunk://hello")
-                        .to("chunk://theme1?themeSubfolder=subfolder")
+                        .to("chunk://subfolder/theme1")
                         .to("mock:endSimple");
             }
         };

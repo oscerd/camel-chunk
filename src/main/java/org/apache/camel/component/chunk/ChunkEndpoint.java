@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.net.URL;
 import java.util.Map;
 
 import com.x5.template.Chunk;
@@ -52,11 +53,17 @@ public class ChunkEndpoint extends ResourceEndpoint {
     @UriParam(description = "Define the encoding of the body")
     private String encoding;
     
+    @UriParam(description = "Define the themes folder to scan")
+    private String themeFolder;
+    
     @UriParam(description = "Define the themes subfolder to scan")
     private String themeSubfolder;
     
     @UriParam(description = "Define the theme layer to elaborate")
     private String themeLayer;
+    
+    @UriParam(description = "Define the file extension of the template")
+    private String extension;
 
     public ChunkEndpoint() {
     }
@@ -142,7 +149,6 @@ public class ChunkEndpoint extends ResourceEndpoint {
             if (fromTemplate) {
                 newChunk = theme.makeChunk();
                 String targetString = IOUtils.toString(resourceReader);
-                System.err.println(targetString);
                 newChunk.append(targetString);
             } else {
                 String targetString = IOUtils.toString(resourceReader);
@@ -163,13 +169,20 @@ public class ChunkEndpoint extends ResourceEndpoint {
         }
         return chunk;
     }
-    
+	
     private Theme getOrCreateTheme() throws IOException {
         if (theme == null) {
-            if (themeSubfolder == null) {
+            if (themeFolder == null && themeSubfolder == null) {
                 theme = new Theme(); 
+            } else if (themeFolder != null && themeSubfolder == null) {
+            	ClassLoader apcl = getCamelContext().getApplicationContextClassLoader();
+            	URL url = apcl.getResource(themeFolder);
+                theme = new Theme(url.getPath(),"");
             } else {
-                theme = new Theme(themeSubfolder); 
+            	ClassLoader apcl = getCamelContext().getApplicationContextClassLoader();
+            	URL url = apcl.getResource(themeFolder);
+            	
+                theme = new Theme(url.getPath(),themeSubfolder);
             }
             if (encoding != null) {
                 theme.setEncoding(encoding);
@@ -202,6 +215,14 @@ public class ChunkEndpoint extends ResourceEndpoint {
         this.encoding = encoding;
     }
 
+    public String getThemeFolder() {
+        return themeFolder;
+    }
+
+    public void setThemeFolder(String themeFolder) {
+        this.themeFolder = themeFolder;
+    }
+    
     public String getThemeSubfolder() {
         return themeSubfolder;
     }
@@ -216,5 +237,13 @@ public class ChunkEndpoint extends ResourceEndpoint {
 
     public void setThemeLayer(String themeLayer) {
         this.themeLayer = themeLayer;
+    }
+    
+    public String getExtension() {
+        return extension;
+    }
+
+    public void setExtension(String extension) {
+        this.extension = extension;
     }
 }
