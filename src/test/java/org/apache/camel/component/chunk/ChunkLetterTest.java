@@ -42,7 +42,7 @@ public class ChunkLetterTest extends CamelTestSupport {
     }
 
     @Test
-    public void testMustacheLetter() throws Exception {
+    public void testChunkLetter() throws Exception {
         MockEndpoint mock = getMockEndpoint("mock:result");
         mock.expectedMessageCount(1);
         mock.expectedBodiesReceived("Dear Ibsen, Claus\n\nThanks for the order of Camel in Action."
