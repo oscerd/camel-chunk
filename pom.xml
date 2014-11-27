@@ -27,7 +27,7 @@
   <artifactId>camel-chunk</artifactId>
   <packaging>bundle</packaging>
   <name>Camel :: Chunk</name>
- <description>Camel Mustache support</description>
+ <description>Camel Chunk support</description>
 
   <properties>
     <camel.osgi.export.pkg>org.apache.camel.component.chunk.*</camel.osgi.export.pkg>
