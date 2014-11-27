@@ -37,10 +37,10 @@ public class ChunkComponentNestedLayersTest extends CamelTestSupport {
     protected ProducerTemplate startSimpleProducerTemplate;
 
     /**
-     * Test using Resource URI header
+     * Test using two following distinct themeLayer of the same theme without Resource URI header defined
      */
     @Test
-    public void testChunkNestedLayers() throws Exception {
+    public void testChunkDoubleLayers() throws Exception {
         // Prepare
         Exchange exchange = createExchangeWithBody("The Body");
         exchange.getIn().setHeader("name", "Andrew");

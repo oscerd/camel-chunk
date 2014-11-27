@@ -24,11 +24,10 @@ import org.apache.camel.test.junit4.CamelTestSupport;
 import org.junit.Test;
 
 /**
- * Unit test for wiki documentation
+ * Unit test for wiki documentation (same as Mustache component)
  */
 public class ChunkLetterTest extends CamelTestSupport {
 
-    // START SNIPPET: e1
     private Exchange createLetter() {
         Exchange exchange = context.getEndpoint("direct:a").createExchange();
 
@@ -62,5 +61,4 @@ public class ChunkLetterTest extends CamelTestSupport {
             }
         };
     }
-    // END SNIPPET: e1
 }

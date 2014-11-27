@@ -38,7 +38,7 @@ public class ChunkComponentNestedTest extends CamelTestSupport {
     protected ProducerTemplate startSimpleProducerTemplate;
 
     /**
-     * Main test
+     * Test using two following different theme from different folder without Resource URI header defined
      */
     @Test
     public void testChunkSubfolder() throws Exception {

@@ -37,10 +37,10 @@ public class ChunkComponentLayersTest extends CamelTestSupport {
     protected ProducerTemplate startSimpleProducerTemplate;
 
     /**
-     * Test using Resource URI header
+     * Test using themeLayer parameter without Resource URI header defined
      */
     @Test
-    public void testChunkSingleLayer() throws Exception {
+    public void testChunkLayer() throws Exception {
         // Prepare
         Exchange exchange = createExchangeWithBody("The Body");
         exchange.getIn().setHeader("name", "Andrew");

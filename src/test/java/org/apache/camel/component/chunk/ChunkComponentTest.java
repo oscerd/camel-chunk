@@ -39,7 +39,7 @@ public class ChunkComponentTest extends CamelTestSupport {
     protected ProducerTemplate startSimpleProducerTemplate;
 
     /**
-     * Main test
+     * Test without Resource URI header defined
      */
     @Test
     public void testChunk() throws Exception {
@@ -70,7 +70,7 @@ public class ChunkComponentTest extends CamelTestSupport {
     }
 
     /**
-     * Main test
+     * Performance test
      */
     @Test
     public void testChunkPerformance() throws Exception {

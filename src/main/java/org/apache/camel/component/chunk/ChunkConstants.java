@@ -24,12 +24,12 @@ public final class ChunkConstants {
     /**
      * Header containing a Chunk template location
      */
-    public static final String CHUNK_RESOURCE_URI = "ChunksResourceUri";
+    public static final String CHUNK_RESOURCE_URI = "ChunkResourceUri";
 
     /**
      * Header containing the Chunk template code
      */
-    public static final String CHUNK_TEMPLATE = "ChunksTemplate";
+    public static final String CHUNK_TEMPLATE = "ChunkTemplate";
 
     /**
      * Chunk endpoint URI prefix

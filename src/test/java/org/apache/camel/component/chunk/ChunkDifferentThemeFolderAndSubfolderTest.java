@@ -37,7 +37,7 @@ public class ChunkDifferentThemeFolderAndSubfolderTest extends CamelTestSupport 
     protected ProducerTemplate startSimpleProducerTemplate;
 
     /**
-     * Test using Resource URI header
+     * Test using themeFolder and themeSubfolder parameters
      */
     @Test
     public void testChunkSubfolder() throws Exception {
