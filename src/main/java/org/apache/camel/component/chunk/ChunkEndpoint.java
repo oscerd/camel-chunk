@@ -95,7 +95,7 @@ public class ChunkEndpoint extends ResourceEndpoint {
 
     @Override
     protected void onExchange(Exchange exchange) throws Exception {
-    	boolean fromTemplate = false;
+        boolean fromTemplate = false;
         String newResourceUri = exchange.getIn().getHeader(CHUNK_RESOURCE_URI, String.class);
         if (theme == null) {
             theme = getOrCreateTheme();
@@ -104,10 +104,10 @@ public class ChunkEndpoint extends ResourceEndpoint {
             String newTemplate = exchange.getIn().getHeader(CHUNK_TEMPLATE, String.class);
             Chunk newChunk;
             if (newTemplate == null) {
-            	fromTemplate = false;
+                fromTemplate = false;
                 newChunk = getOrCreateChunk(theme, fromTemplate);
             } else {
-            	fromTemplate = true;
+                fromTemplate = true;
                 newChunk = createChunk(new StringReader(newTemplate), theme, fromTemplate);
                 exchange.getIn().removeHeader(CHUNK_TEMPLATE);
             }
@@ -169,20 +169,19 @@ public class ChunkEndpoint extends ResourceEndpoint {
         }
         return chunk;
     }
-	
+    
     private Theme getOrCreateTheme() throws IOException {
         if (theme == null) {
             if (themeFolder == null && themeSubfolder == null) {
                 theme = new Theme(); 
             } else if (themeFolder != null && themeSubfolder == null) {
-            	ClassLoader apcl = getCamelContext().getApplicationContextClassLoader();
-            	URL url = apcl.getResource(themeFolder);
-                theme = new Theme(url.getPath(),"");
+                ClassLoader apcl = getCamelContext().getApplicationContextClassLoader();
+                URL url = apcl.getResource(themeFolder);
+                theme = new Theme(url.getPath(), "");
             } else {
-            	ClassLoader apcl = getCamelContext().getApplicationContextClassLoader();
-            	URL url = apcl.getResource(themeFolder);
-            	
-                theme = new Theme(url.getPath(),themeSubfolder);
+                ClassLoader apcl = getCamelContext().getApplicationContextClassLoader();
+                URL url = apcl.getResource(themeFolder);
+                theme = new Theme(url.getPath(), themeSubfolder);
             }
             if (encoding != null) {
                 theme.setEncoding(encoding);
