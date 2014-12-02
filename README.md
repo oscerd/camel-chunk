@@ -1,5 +1,11 @@
 # Chunk Component
 
+## This repo is inactive since 02.12.2014
+
+* Created pull request https://github.com/apache/camel/pull/345.
+* Issue in Apache Jira https://issues.apache.org/jira/browse/CAMEL-8090.
+* For any new contributions please refer to Apache Camel repository and JIRA. This is just the first version of the component and there are a lot of improvements to do.
+
 # Introduction
 
 This component use the Java Chunk library: http://www.x5software.com/chunk/examples/ChunkExample?loc=en_US
